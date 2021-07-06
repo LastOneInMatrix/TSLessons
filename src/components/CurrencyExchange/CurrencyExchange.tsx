@@ -51,7 +51,7 @@ const CurrencyExchange: React.FC<CurrencyExchangePropsType> = ({
         <div className="currency">
             <h2>Currency exchange</h2>
             <div className="currency-names">
-                <p>Current currency:</p>
+                <p>Текущая валюта:</p>
                 <ul>
                     {currenciesName.map((currency: string, index: number) => {
                         return (
@@ -76,7 +76,7 @@ const CurrencyExchange: React.FC<CurrencyExchangePropsType> = ({
         </span>
             </div>
             <div className="fields">
-                <p>Currency rate: {currencyRate}</p>
+                <p>Курс: {currencyRate}</p>
                 {viewCurrency}
             </div>
         </div>
