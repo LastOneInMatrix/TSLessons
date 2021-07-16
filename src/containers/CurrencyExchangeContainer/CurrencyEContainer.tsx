@@ -1,14 +1,24 @@
-import React from 'react';
+import React, {Dispatch} from 'react';
 import CurrencyExchange from '../../components/CurrencyExchange/CurrencyExchange';
-import { CurrencyState, CurrencyType } from '../../redux/currencyReducer';
+import {CurrencyState, CurrencyType} from '../../redux/currencyReducer';
 import {
     ChangeCurrencyFieldAC,
     ChangeOperationActionAC,
-    ChangeCurrentCurrencyAC,
+    ChangeCurrentCurrencyAC, CurrencyReducersTypes,
 } from '../../redux/actions';
-import {connect, ConnectedProps, useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+    commonSelector,
+} from "../../redux/Selectors/Selector";
 
-const CurrencyEContainer: React.FC<TProps> = props => {
+const CurrencyEContainer: React.FC = props => {
+
+
+    // const currencies = useSelector(selectCurrencies)
+    // const currentCurrency = useSelector(selectCurrentCurrency)
+    // const isBuying = useSelector(selectIsBuying)
+    // const amountOfBYN = useSelector(selectAmountOfBYN)
+    // const amountOfCurrency = useSelector(selectAmountOfCurrency)
 
     const {
         currencies,
@@ -16,9 +26,9 @@ const CurrencyEContainer: React.FC<TProps> = props => {
         isBuying,
         amountOfBYN,
         amountOfCurrency,
-    } = props;
+    } = useSelector(commonSelector);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<Dispatch<CurrencyReducersTypes>>(); //если не типизировать, то в dispatch можно будет передовать экшены которых у нас нет, т.е. любого типа
 
     let currencyRate: number = 0;
     const currenciesName = currencies.map((currency: CurrencyType) => {
@@ -72,20 +82,10 @@ const CurrencyEContainer: React.FC<TProps> = props => {
     );
 };
 
-const mapStateToProps = ( { currency } : {currency: CurrencyState} ): CurrencyState => {
-    return {
-        currencies: currency.currencies,
-        currentCurrency: currency.currentCurrency,
-        isBuying: currency.isBuying,
-        amountOfBYN: currency.amountOfBYN,
-        amountOfCurrency: currency.amountOfCurrency,
-    };
-};
 
 
-const connector = connect(mapStateToProps, {});
 
-type TProps = ConnectedProps<typeof connector>;
+// type TProps = ConnectedProps<typeof connector>;
 
-export default connector(CurrencyEContainer);
+export default CurrencyEContainer;
 
