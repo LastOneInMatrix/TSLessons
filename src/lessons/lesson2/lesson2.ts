@@ -1,5 +1,8 @@
 console.log('lesson 2');
 
+const globalScope = {
+
+}
 // Lexical environment
 // http://jsflow.org/docs/lex-env/
 
@@ -21,8 +24,18 @@ console.log('lesson 2');
 // https://www.youtube.com/watch?v=Kuq6oIN3PH0
 
 
+
+// создают область видимости function/class  switch loop try/catch anonimus code if/else
+
+
 // Task 01
 // Реализовать функцию sum которая суммирует 2 числа следующим образом sum(3)(6) === 9
+    function sum(a: number){
+        return function(b: number){
+            return a + b;
+        }
+    }
+
 
 // Task 02
 // Реализовать функцию makeCounter которая работает следующим образом:
@@ -33,6 +46,15 @@ console.log('lesson 2');
 // counter2(); // 1
 // counter(); // 3
 
+const makeCounter = () => {
+    let num = 0;
+    return function(){
+            return ++num;
+    }
+}
+
+
+
 // Task 03
 // Переписать функцию из Task 02 так, что бы она принимала число в качестве аргумента и это число было стартовым значением счетчика
 // и возвращала следующий объект методов:
@@ -40,6 +62,41 @@ console.log('lesson 2');
 // decrease: -1
 // reset: установить счетчик в 0;
 // set: установить счетчик в заданное значение;
+
+function Task3(){
+        let count: number =0;
+        return {
+            increase: () => ++count,
+            decrease: () => --count,
+            reset: () => count = 0,
+            set: (num: number) => {
+                count = num;
+                return num;
+            },
+            getCount: () => console.log(count),
+        }
+}
+
+// Напишите функцию sumTo(n), которая вычисляет сумму чисел 1 + 2 + ... + n.
+
+// function sumTo(a: number){
+//         let result = 0;
+//         for(let i = 1; i<=a; i++){
+//             result += i;
+//         }
+//         return result;
+// }
+
+function sumTo(a: number): number {
+        if(a === 1) return a;
+        return a + sumTo(a - 1);
+}
+// 3 + sumTo(2) => 2 + sumTo(1)=>1
+console.log(sumTo(3)); //6
+
+
+
+
 
 // Task 04*
 // Реализовать функцию superSum которая принимает число в качестве аргумента, которое указывает на количество слагаемых
@@ -51,7 +108,44 @@ console.log('lesson 2');
 // 5) superSum(3)(2,5)(3) //10
 // 6) superSum(3)(2,5)(3,9) //10
 
+
+const superSum = (arg:  number) => {
+    let _arguments: number[] = [];
+
+    let functionScope = {
+        outerScope: globalScope,
+        arg: 3,
+        _arguments: [2,2,1],
+        helper: 'Function-ссылка на саму себя получается?'
+    }
+
+    if(arg<0) return 0;
+    if(arg ===1) return (a: number) => a;
+
+
+
+    function helper(...rest: number[]){
+            debugger;
+        let helperFunctionScope = {
+            outerScope: functionScope,
+            rest: undefined
+        }
+        _arguments = [..._arguments, ...rest];
+        if(_arguments.length === arg) {
+            _arguments.length = arg;
+           return _arguments.reduce((acc,b) => acc + b, 0)
+        }
+        else {
+            return helper;
+        }
+    }
+    return helper;
+}
 // P.S. типизируйте только аргументы, а при вызове функции используйте @ts-ignore
+//@ts-ignore
+console.log(superSum(3)(2)(2)(1))
+
+
 
 // Task 05
 // решить все задачи по рекурсии которые даны в конце статьи https://learn.javascript.ru/recursion
