@@ -1,5 +1,3 @@
-console.log('lesson 3');
-
 // Event loop
 // https://learn.javascript.ru/event-loop
 // https://habr.com/ru/company/ruvds/blog/340508/
@@ -15,6 +13,25 @@ console.log('lesson 3');
 // https://jsonplaceholder.typicode.com/posts/1
 // https://habr.com/ru/company/oleg-bunin/blog/417461/?_ga=2.54695343.543933152.1602500664-1040035071.1596811661
 
+// XMLHttpRequest - https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
+
+let prom  = new Promise((res, rej) => {})
+
+//Задача1 Встроенная функция setTimeout использует колбэк-функции. Создайте альтернативу, использующую промисы.
+// Функция delay(ms) должна возвращать промис, который перейдёт в состояние «выполнен» через ms миллисекунд,
+// так чтобы мы могли добавить к нему .then:
+
+function delay(ms: number) {
+    // ваш код
+    return new Promise(resolve => setTimeout(() => resolve(), ms))
+}
+
+delay(3000).then(() => alert('выполнилось через 3 секунды'));
+
+
 
 // just a plug
-export default ()=>{};
+export default () => {
+};
+
+
