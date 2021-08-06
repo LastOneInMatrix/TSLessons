@@ -38,3 +38,37 @@ console.log('Lesson 6');
 // just a plug
 export default () => {
 };
+
+
+//1 first Class
+
+class User {
+    name: string; //типизация внутри объекта
+    // sayHi: () => void;
+    constructor(name: string) {
+        this.name = name
+        // this.sayHi = function(){console.log(this.name)} -- добовляется к каждому экземпляру класса
+    }
+    sayHi() {
+        console.log(`${this.name} say Hi!`)
+    } //данный метод идет в прототип не перечисляемые методы
+    sayYo = () => {
+        console.log(this) //запоминает this будущего объекта навсегда, и будет принадлежать экземпляру объекта
+    }
+}
+const user1 = new User('As');
+console.log(user1)
+
+class UserWithAge extends User {
+    age: number
+    constructor(name: string, age: number){
+        super(name) //вызов конструктора родителя, который создает this, поэтомиу без супер к this не обратиться
+        this.age = age
+    }
+    sayAge() {
+        console.log(`${this.name} is age: ${this.age}`)
+    }
+}
+
+const user2 = new UserWithAge('Ass', 28);
+console.log(user2.sayAge(), user2, user2.sayYo())
